@@ -45,34 +45,46 @@ namespace DeckOfCards.Controllers
         {
             // make a blank list of cards to add cards to later
             List<Card> cardList = new List<Card>();
+            // We use a Hand object, which will hold our list of cards
+            Hand hand = new Hand();
+
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient
                     .GetAsync("https://deckofcardsapi.com/api/deck/" + deckId + "/draw/?count=5"))
                 {
                     var stringResponse = await response.Content.ReadAsStringAsync();
-                    jDoc = JsonDocument.Parse(stringResponse);
+
+                    // we have built a Card class to map our card data to
+                    // as well as a Hand class that will hold our array of Cards
+                    // we can now use the JsonSerializer.Deserialize<Hand>() method,
+                    // to the Card array that is called cards in our Hand object
+                    hand = JsonSerializer.Deserialize<Hand>(stringResponse);
+
+
+                    //jDoc = JsonDocument.Parse(stringResponse);
 
                     // this grabbed the data the formed our card array in Json format
-                    var jsonList = jDoc.RootElement.GetProperty("cards");
+                    //var jsonList = jDoc.RootElement.GetProperty("cards");
+
 
                     // wee will use a for loop to iterate through that card array
                     //and build our List of cards to return
-                    for(int i = 0; i < jsonList.GetArrayLength(); i++)
-                    {
-                        // we parse through the data while building a new Card
-                        // and then add that Card to our List of cards
-                        cardList.Add(new Card() 
-                        { 
-                            // we now map the properties from the Json
-                            // to the new Card and add to the List
-                            image = jsonList[i].GetProperty("image").GetString(),
-                            suit = jsonList[i].GetProperty("suit").GetString(),
-                            value = jsonList[i].GetProperty("value").GetString(),
-                            code = jsonList[i].GetProperty("code").GetString()
+                    //for(int i = 0; i < jsonList.GetArrayLength(); i++)
+                    //{
+                    //    // we parse through the data while building a new Card
+                    //    // and then add that Card to our List of cards
+                    //    cardList.Add(new Card() 
+                    //    { 
+                    //        // we now map the properties from the Json
+                    //        // to the new Card and add to the List
+                    //        image = jsonList[i].GetProperty("image").GetString(),
+                    //        suit = jsonList[i].GetProperty("suit").GetString(),
+                    //        value = jsonList[i].GetProperty("value").GetString(),
+                    //        code = jsonList[i].GetProperty("code").GetString()
                         
-                        });
-                    }
+                    //    });
+                    //}
 
 
 
