@@ -30,6 +30,16 @@ namespace DeckOfCards.Controllers
                     var stringResponse = await response.Content.ReadAsStringAsync();
                     // parse the string and return a JsonDocument
                     jDoc = JsonDocument.Parse(stringResponse);
+
+                    //call get property off the root element, but dont try to call the type yet
+                    // look at ValueKinf property to see what the type is
+                    //var testString = jDoc.RootElement.GetProperty("deck_id");
+
+                    //or get the ValueKind property value to see what the type is
+                    //var testString = jDoc.RootElement.GetProperty("deck_id").ValueKind;
+
+                     // then once you know the type you can call the respective Get method, to get the value from the Json Property
+                    //var testString = jDoc.RootElement.GetProperty("deck_id").GetString();
                 }
             }
 
@@ -64,29 +74,29 @@ namespace DeckOfCards.Controllers
                     var temp = JsonSerializer.Serialize(hand);
 
 
-                    //jDoc = JsonDocument.Parse(stringResponse);
+                    jDoc = JsonDocument.Parse(stringResponse);
 
-                    // this grabbed the data the formed our card array in Json format
-                    //var jsonList = jDoc.RootElement.GetProperty("cards");
+                    //this grabbed the data the formed our card array in Json format
+                    var jsonList = jDoc.RootElement.GetProperty("cards");
 
 
-                    // wee will use a for loop to iterate through that card array
-                    //and build our List of cards to return
-                    //for(int i = 0; i < jsonList.GetArrayLength(); i++)
-                    //{
-                    //    // we parse through the data while building a new Card
-                    //    // and then add that Card to our List of cards
-                    //    cardList.Add(new Card() 
-                    //    { 
-                    //        // we now map the properties from the Json
-                    //        // to the new Card and add to the List
-                    //        image = jsonList[i].GetProperty("image").GetString(),
-                    //        suit = jsonList[i].GetProperty("suit").GetString(),
-                    //        value = jsonList[i].GetProperty("value").GetString(),
-                    //        code = jsonList[i].GetProperty("code").GetString()
-                        
-                    //    });
-                    //}
+                    //we will use a for loop to iterate through that card array
+
+                   //and build our List of cards to return
+                    for (int i = 0; i < jsonList.GetArrayLength(); i++)
+                    {
+                        // we parse through the data while building a new Card
+                        // and then add that Card to our List of cards
+                        cardList.Add(new Card()
+                        {
+                            // we now map the properties from the Json
+                            // to the new Card and add to the List
+                            image = jsonList[i].GetProperty("image").GetString(),
+                            suit = jsonList[i].GetProperty("suit").GetString(),
+                            value = jsonList[i].GetProperty("value").GetString(),
+                            code = jsonList[i].GetProperty("code").GetString()
+                        });
+                    }
 
 
 
