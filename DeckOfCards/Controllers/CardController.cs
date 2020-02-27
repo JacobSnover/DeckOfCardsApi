@@ -41,7 +41,7 @@ namespace DeckOfCards.Controllers
         // we make an async method that will call the deck of cards api
         // and return to use a number of cards
         // we will put those in a List of cards, and return them
-        public async Task<List<Card>> GetCards(string deckId)
+        public async Task<Hand> GetCards(string deckId)
         {
             // make a blank list of cards to add cards to later
             List<Card> cardList = new List<Card>();
@@ -51,7 +51,7 @@ namespace DeckOfCards.Controllers
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient
-                    .GetAsync("https://deckofcardsapi.com/api/deck/" + deckId + "/draw/?count=5"))
+                    .GetAsync("https://deckofcardsapi.com/api/deck/" + deckId + "/draw/?count=1"))
                 {
                     var stringResponse = await response.Content.ReadAsStringAsync();
 
@@ -60,6 +60,8 @@ namespace DeckOfCards.Controllers
                     // we can now use the JsonSerializer.Deserialize<Hand>() method,
                     // to the Card array that is called cards in our Hand object
                     hand = JsonSerializer.Deserialize<Hand>(stringResponse);
+
+                    var temp = JsonSerializer.Serialize(hand);
 
 
                     //jDoc = JsonDocument.Parse(stringResponse);
@@ -90,7 +92,7 @@ namespace DeckOfCards.Controllers
 
                 }
             }
-            return cardList;
+            return hand;
         }
 
 

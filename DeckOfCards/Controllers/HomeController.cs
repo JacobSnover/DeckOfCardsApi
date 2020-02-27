@@ -40,9 +40,16 @@ namespace DeckOfCards.Controllers
         // and return to us a number of cards
         public async Task<IActionResult> GetCards()
         {
-            List<Card> cardList = await cardController
+            Hand hand = await cardController
                 .GetCards(HttpContext.Session.GetString("deckId"));
-            return View(cardList);
+            return View(hand);
+        }
+
+        public async Task<Hand> GetHand()
+        {
+            Hand hand = await cardController
+                .GetCards(HttpContext.Session.GetString("deckId"));
+            return hand;
         }
 
 

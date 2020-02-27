@@ -4,12 +4,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model List<Card>
+@model Hand
 
 <h1>GetCards</h1>
 
-@foreach (Card card in Model)
+@foreach (Card card in Model.cards)
 { 
-    <image src="@card.image"></image>
+    <image id="card" src="@card.image"></image>
 }
 
+<input type="button" value="Get Hand" id="GetHand" />
+<span id="result1"></span>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#GetHand').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Home/GetHand',
+                success: function (result) {
+                    for (var i = 0; i < result.cards.length; i++) {
+                        $('#card').attr('src', result.cards[i].image);
+                    }
+                    
+                }
+            });
+        });
+    });
+</script>
