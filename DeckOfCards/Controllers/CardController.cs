@@ -31,6 +31,21 @@ namespace DeckOfCards.Controllers
                     // parse the string and return a JsonDocument
                     jDoc = JsonDocument.Parse(stringResponse);
 
+
+
+                    // this is to grab the array of data
+                    //var test = jDoc.RootElement.GetProperty("arrayOfData");
+
+                //then go through the array of data grabbing each individually
+                    //for (int i = 0; i < test.GetArrayLength(); i++)
+                    //{
+                    // if you have nested data you can grab that by calling GetProperty twice in a row
+                    //    var x = test[i].GetProperty("outerProperty").GetProperty("innerProperty").GetString();
+                    //}
+
+
+
+
                     //call get property off the root element, but dont try to call the type yet
                     // look at ValueKinf property to see what the type is
                     //var testString = jDoc.RootElement.GetProperty("deck_id");
@@ -38,7 +53,7 @@ namespace DeckOfCards.Controllers
                     //or get the ValueKind property value to see what the type is
                     //var testString = jDoc.RootElement.GetProperty("deck_id").ValueKind;
 
-                     // then once you know the type you can call the respective Get method, to get the value from the Json Property
+                    // then once you know the type you can call the respective Get method, to get the value from the Json Property
                     //var testString = jDoc.RootElement.GetProperty("deck_id").GetString();
                 }
             }
